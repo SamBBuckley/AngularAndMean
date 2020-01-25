@@ -6,12 +6,13 @@ const Post = require('./models/post');
 
 const app = express();
 
-mongoose.connect("mongodb+srv://sam:l6VkDK7YjNsxN4pm@cluster0-mgj46.mongodb.net/node-angular?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://sam:l6VkDK7YjNsxN4pm@cluster0-mgj46.mongodb.net/node-angular?retryWrites=true&w=majority", {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => {
   console.log('Connected to database!');
 })
-.catch(() => {
+.catch((err) => {
   console.log('Connection failed!');
+  console.log(err.message);
 });
 
 
