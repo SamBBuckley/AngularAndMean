@@ -14,15 +14,16 @@ mongoose.connect("mongodb+srv://sam:l6VkDK7YjNsxN4pm@cluster0-mgj46.mongodb.net/
   console.log('Connection failed!');
 });
 
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.use((req, res, next) => {
+app.use((req, res, next) => { // Applies to all coming traffic
   res.setHeader('Access-Control-Allow-Origin', "*");
   res.setHeader('Access-Control-Allow-Headers',
   'Origin, X-Requested-With, Content-Type, Accept');
   res.setHeader('Access-Control-Allow-Methods',
-  'GeT, POST, PATCH, DELETE, OPTIONS');
+  'GeT, POST, PUT, PATCH, DELETE, OPTIONS');
   next();
 });
 
@@ -39,6 +40,17 @@ app.post('/api/v1/posts', (req, res, next) => {
   });
 });
 
+app.put("/api/v1/posts/:id", (req, res, next) => {
+  const post = new Post ({
+    _id: req.body.id,
+    title: req.body.title,
+    content: req.body.content
+  })
+  Post.updateOne({_id: req.param.id}, post).then(result => {
+    console.log(result);
+    res.status(200).json({message: "Update successful!" });
+  });
+});
 
 
 app.get('/api/v1/posts',(req, res, next) => {
